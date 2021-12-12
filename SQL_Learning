@@ -1,4 +1,5 @@
 //SQL Learnin'
+//Using PostgreSQL
 --------------------------------------------------------------------------------------------------------------------------------------
 SQL SELECT Statements
 --------------------------------------------------------------------------------------------------------------------------------------
@@ -64,3 +65,61 @@ SELECT * FROM tbl1 RIGHT JOIN tbl2 ON join-conditions
    
 SELECT * FROM tbl1 RIGHT JOIN tbl2 ON join-conditions
     Full outer join table tbl1 with tbl2 based on join-conditions
+--------------------------------------------------------------------------------------------------------------------------------------
+Notes
+--------------------------------------------------------------------------------------------------------------------------------------
+COLUMN v    COLUMN v 
+--------------------- \
+Rows ->  |             \
+---------------------   \
+Rows ->  |               TABLE
+---------------------   /
+Rows ->  |             /
+--------------------- /
+
+
+Alias = Alternative name for column or result
+
+AS = alias gets assigned at the very end of data query 
+
+INNER JOIN = Allows us to combine multiple tables together
+        >An INNER JOIN will result with the set of records that match in both tables
+        >Venn Diagram: Where table A and table B have similarities; overlapping
+        
+OUTER JOIN = Allow us to specify how to deal with values only present in one table
+        >Grabs everything from table A and table B; symmetrical 
+        >with WHERE: to get rows unique to either tables; exact opposite from inner joins
+           ~Venn Diagram: Middle similarities is missing; unique to either table only
+
+LEFT OUTER JOIN = In the left table, if no match with the right table, those results are null
+        >Order matters! Either exclusive to left table, or there is a match with right table
+        >Left table has everything selected; if there is nothing in common from right table, value will return null
+        >Conditional will find values only in left table, excluding matching values from right table and right table values
+        >Example: SELECT film.film_id, film.title, inventory_id FROM film
+                    LEFT OUTER JOIN inventory
+                        ON inventory.film_id = film.film_id
+        
+RIGHT OUTER JOIN = In the right table, if no match with the left table, those results are null
+        >Order matters! Either exclusive to right table, or there is a match with left table
+        >Right table has everything selected; if there is nothing in common from left table, value will return null
+        >Conditional will find values only in right table, excluding matching values from left table and left table values
+        >Example: SELECT film.film_id, title, inventory_id, store_id FROM film
+                    RIGHT JOIN inventory
+                        ON inventory.film_id = film.film_id
+
+UNION = Used to combine the result-set of two or more SELECT statements 
+        >Directly concatenate two results together, essentially "pasting" them together
+        >Must have same column names to complete action
+        
+
+
+
+
+
+
+
+
+
+
+
+
