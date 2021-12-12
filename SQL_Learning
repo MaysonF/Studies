@@ -1,0 +1,66 @@
+//SQL Learnin'
+--------------------------------------------------------------------------------------------------------------------------------------
+SQL SELECT Statements
+--------------------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM (table)
+    Select all rows and columns from table (table)
+    
+SELECT c1, c2 FROM (table)
+    Select column1, column2 and all rows from table (table)
+    
+SELECT c1, c2 FROM (table) WHERE (conditions) ORDER BY c1 ASC, c2 DESC
+    Select columns c1, c2 with where conditions and from table (table) order results by column1 ascending and column2 descending
+    
+SELECT DISTINCT c1, c2 FROM (table)
+    Select distinct rows by column1 and column2 from table (table)
+    
+SELECT c1, aggregate(expr) FROM (table) GROUP BY c1
+    Select column1 and use aggregate function on expression (expr) group columns by column1
+   
+SELECT c1, aggregate(expr) AS c2 FROM (table) GROUP BY c1 HAVING c2 > v
+    Select column1 and column2 alias of the result of the aggregate function on expr. filter group of records with column2 > value v
+--------------------------------------------------------------------------------------------------------------------------------------
+SQL UPDATE table statements
+--------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO (table)(c1, c2, c3,....) VALUES (v1, v2, v3,....)
+    Insert data into table (table)
+  
+INSERT INTO (table)(c1, c2, c3,....) SELECT (c1, c2, c3,....) FROM (table2) where (conditions)
+    Insert data from (table2) into (table)
+    
+UPDATE (table) SET c1 = v1, c2 = v2, c3 = v3,... where (conditions)
+    Update data in table (table)
+   
+DELETE FROM (table) WHERE (conditions)
+    Delete records from table (table) based on where (conditions)
+    
+TRUNCATE TABLE (table)
+    Drop table (table) and re-create it, all data is lost
+--------------------------------------------------------------------------------------------------------------------------------------
+SQL TABLE statements
+--------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE (table)(c1 datatype(length) c2 datatype(length) PRIMARY KEY(c1))
+    Create table (table) with primary key is column1
+  
+DROP TABLE (table)
+    Remove table (table) from database
+    
+ALTER TABLE (table) ADD COLUMN c1 datatype(length)
+    Add column1 to table (table)
+    
+ALTER TABLE (table) DROP COLUMN c1
+    Drop column1 from table (table)
+--------------------------------------------------------------------------------------------------------------------------------------
+SQL JOIN Statements
+--------------------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM tb11 INNER JOIN tb12 ON join-conditions
+    Inner join table (table1) with (table2) based on join-conditions
+    
+SELECT * FROM tbl1 LEFT JOIN tbl2 ON join-conditions
+    Left join table (table1) with (table2) based on join-conditions
+  
+SELECT * FROM tbl1 RIGHT JOIN tbl2 ON join-conditions
+    Right join table (table1) with (table2) based on join-conditions
+   
+SELECT * FROM tbl1 RIGHT JOIN tbl2 ON join-conditions
+    Full outer join table tbl1 with tbl2 based on join-conditions
