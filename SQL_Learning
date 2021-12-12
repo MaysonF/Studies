@@ -110,9 +110,32 @@ RIGHT OUTER JOIN = In the right table, if no match with the left table, those re
 UNION = Used to combine the result-set of two or more SELECT statements 
         >Directly concatenate two results together, essentially "pasting" them together
         >Must have same column names to complete action
-        
+--------------------------------------------------------------------------------------------------------------------------------------
+Advanced SQL Commands
+--------------------------------------------------------------------------------------------------------------------------------------
+Timestamps =
+        >TIME - Returns only time
+        >DATE - Returns only date
+        >TIMESTAMP - Returns date and time
+        >TIMESTAMPTZ - Returns date,time and timezone
+        >SHOW TIMEZONE - Returns computers timezone (ex: America/New_York)
+        >SELECT NOW - Returns timestamp with timezone (ex: 2021-12-11 21:26:36.974154-05)
+        >SELECT TIMEOFDAY - Returns timestamp with timezone in string format. (ex: Sat Dec 11 21:22:11.714687 2021 EST)
+        >SELECT CURRENT_TIME - Returns current time with time zone (ex: 21:25:43.593543-05:00)
+        >SELECT CURRENT_DATE - Returns current date (ex: 2021-12-11)
+        >SHOW ALL - Returns display current settings
 
-
+Extracts = 
+        >Extract() = allows you to extract or obtain a sub-component of a data value
+            ~YEAR, MONTH, DAY, WEEK, QUARTER
+        >Example: SELECT EXTRACT(YEAR FROM payment_date) AS year FROM payment
+        >Example: SELECT AGE(payment_date) FROM payment
+        >Example: TO_CHAR(date_col, 'mm-dd-yyyy') 
+            ~(useful for timestamp formatting; converting data types to text)
+            ~Many different formatting options. Search online for all options
+                o: https://www.postgresql.org/docs/12/functions-formatting.html
+            ~American format: mm-dd-yyyy, European format: dd-mm-yyyy
+      
 
 
 
