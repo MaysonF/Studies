@@ -230,22 +230,649 @@ CORRECT ANSWERS:
 1. SELECT * FROM cd.facilities;
 2. SELECT name, membercost FROM cd.facilities;
 3. SELECT name, membercost FROM cd.facilities WHERE membercost > 0;
-4. SELECT facid, name, membercost, monthlymaintenance FROM cd.facilities WHERE membercost > 0 AND membercost < (monthlymaintenance/50.0)
+4. SELECT facid, name, membercost, monthlymaintenance FROM cd.facilities WHERE membercost > 0 AND membercost < 
+(monthlymaintenance/50.0)
 5. SELECT * FROM cd.facilities WHERE name ILIKE %tennis%;
 6. SELECT * FROM cd.facilities WHERE facid IN (1,5);
 7. SELECT memid, surname, firstname, joindate FROM cd.members WHERE joindate >= '09-01-2012';
 8. SELECT DISTINCT surname FROM cd.members ORDER BY surname LIMIT 10;
 9. SELECT MAX(joindate) FROM cd.members;
 10. SELECT COUNT(*) FROM cd.facilities WHERE guestcost >= 10;
-11. SELECT facid, SUM(slots) AS total_slots FROM cd.bookings WHERE starttime >= '2012-09-01' AND starttime <= '2012-10-01' GROUP BY facid ORDER BY SUM(slots)
+11. SELECT facid, SUM(slots) AS total_slots FROM cd.bookings WHERE starttime >= '2012-09-01' AND starttime <= '2012-10-01' 
+GROUP BY facid ORDER BY SUM(slots)
 12. SELECT facid, SUM(slots) AS total_slots FROM cd.bookings GROUP BY facid HAVING SUM(slots) > 1000 ORDER BY facid;
-13. SELECT cd.bookings.starttine, cd.facilities.name FROM cd.facilities INNER JOIN cd.bookings ON cd.facilities.facid = cd.bookings.facid WHERE cd.facilities.facid IN (0,1)
+13. SELECT cd.bookings.starttine, cd.facilities.name FROM cd.facilities INNER JOIN cd.bookings ON cd.facilities.facid = 
+cd.bookings.facid WHERE cd.facilities.facid IN (0,1)
 AND cd.bookings.starttime >= '2012-09-21' AND cd.bookings.starttime < '2012-09-22' ORDER BY cd.bookings.starttime
-14. SELECT cd.bookings.startime FROM cd.bookings INNER JOIN cd.members ON cd.members.memid = cd.bookings.memid WHERE cd.members.firstname = 'David' AND cd.members.surname = 'Farrell'
+14. SELECT cd.bookings.startime FROM cd.bookings INNER JOIN cd.members ON cd.members.memid = cd.bookings.memid WHERE 
+cd.members.firstname = 'David' AND cd.members.surname = 'Farrell'
 
 --------------------------------------------------------------------------------------------------------------------------------------
+Creating Databases and Tables
+--------------------------------------------------------------------------------------------------------------------------------------
+~~~~~~~~~~
+Data Types
+~~~~~~~~~~
+Boolen - true or false
+Character - char, varchar, and text
+Numeric - integer and floating-point number
+Temporal - date, time, timestamp and interval
+UUID - university unique identifiers 
+Array - array of strings, numbers, etc...
+JSON
+Hstore Key - value pair
+Special types such as network address and geometric data
+
+-When arithmetic is NOT being performed or expected, set integer values to varchar to avoid any issues
+    ex: phone numbers
+-Use data types that will last for long term storage
+- Google search for best practices 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Primary Keys and Foreign Keys
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Primary key - is a column or group of columns used to identify a row uniquely in a table.
+    > Primary key is considered a constraint in a table. GOLDEN KEYS are PK
+Foreign Key - field or group of fields in a table that uniquely identifies a row in another table.
+    > Defined in a table that references to the primary key of the other table.
+    > Table that contains the foreign key is called "referencing table" or "child table"
+    > Table to which the foreign key references is called "referenced table" or "parent table"
+    > Table can have multiple foreign keys
+    > Foreign key is considered a constraint in a table. GREY KEYS are FK
+
+~~~~~~~~~~~
+Constraints
+~~~~~~~~~~~
+Constraints are the rules enforced on data columns on table
+    > Used to prevent invaild data from being entered into the database
+    > Ensures accuracy and reliability of the data in the database
+    
+Column Constraints - constrains the data in a column to adhere to certain conditions    
+Table Constraints - constrains the data in a table to adhere to certain conditions    
+
+Most common COLUMN constraints: 
+
+NOT NULL - must have value, cannot have null value (requires customer email)
+UNIQUE - ensures that all values in a column are different (such as a customer_id)
+PRIMARY - Uniquely identifies each row/record in a database table
+FOREIGN - Constrains data based on columns in other tables
+CHECK - Ensures that all values in a column satisfy certain conditions
+EXCLUSION - Ensures that if any two rows are compared on the specified column or expression using
+the specified operator, not all of these comparisons will return TRUE.
+
+Most common TABLE contraints:
+
+CHECK (condition) - to check a condition when inserting or updating data
+REFERENCES - to constrain the value stored in the column that must exist in a column in another table
+UNIQUE (column_list) - forces the values stored in the columns listed inside the () to be unique
+PRIMARY KEY (column_list) - Allows you to define the primary key that consists of multiple columns
+
+~~~~~~~~~~~~
+CREATE table
+~~~~~~~~~~~~
+Full General Syntax
+    CREATE TABLE table_name (
+    column_name TYPE column_constraint,
+    column_name TYPE column_constraint,
+    table_constraint table_constraint )
+    INHERITS existing_table_name;
+
+Common Simple Syntax
+    CREATE TABLE table_name (
+    column_name TYPE column_constraint,
+    column_name TYPE column_constraint,);
+    
+    EXAMPLE:
+    CREATE TABLE players (
+    player_id SERIAL PRIMARY KEY,
+    age SMALLINT NOT NULL);
+    
+SERIAL - Create a sequence object and set the next value generated bt the sequence as the default value for the column
+  > Perfect for primary key as it logs unique integere entries for you automatically upon insertion. So you dont have to 
+  keep providing ids for new customers, players, gamers, etc... 
+  > If a row is later removed, the column with the serial data type will NOT adjust, but marks the fact that a row was removed
+  from the sequence
+
+
+PGAdmin
+
+CREATE TABLE account(
+	user_id SERIAL PRIMARY KEY,
+	username VARCHAR(50) UNIQUE NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	email_address VARCHAR(250) UNIQUE NOT NULL,
+	created_on TIMESTAMP NOT NULL,
+	last_login TIMESTAMP
+	);
+
+(Can only run CREATE TABLE one time per unique table)
+
+CREATE TABLE job (
+	job_id SERIAL PRIMARY KEY,
+	job_name VARCHAR(200) UNIQUE NOT NULL);
+
+
+(REFERENCING TABLE)
+CREATE TABLE account_job (
+	user_id INTEGER REFERENCES account(user_id),
+	job_id INTEGER REFERENCES job(job_id),
+	hire_date TIMESTAMP);
+
+~~~~~~
+INSERT
+~~~~~~
+INSERT allows you to add in rows to a table
+
+General Snytax:
+
+    INSERT INTO table(column1, column2,...)
+    VALUES
+        (value1, value2,...),
+        (value1, value2,...);
+
+Snytax for inserting values from ANOTHER table:
+   
+   INSERT INTO table(column1, column2,...)
+   SELECT column1, column2,...
+   FROM another_table
+   WHERE condition;
+   
+PGAdmin
+
+INSERT INTO account(username, password, email_address, created_on)
+VALUES
+('Mayson', 'password', 'mayshuun@gmail.com',CURRENT_TIMESTAMP)
+
+INSERT INTO job(job_name)
+VALUES
+('Software Developer');
+
+INSERT INTO job(job_name)
+VALUES
+('AV tech');
+
+INSERT INTO account_job(user_id, job_id, hire_date)
+VALUES
+(1, 1, CURRENT_TIMESTAMP);
+
+~~~~~~
+UPDATE
+~~~~~~
+UPDATE - allows for the changing of values of the columns in a table
+
+General snytax:
+UPDATE table
+SET column1 = value1, 
+column2 = value 2,...
+WHERE conditions
+
+PGAdmin
+
+UPDATE account
+SET last_login = CURRENT_TIMESTAMP
+(updating last login to current timestamp)
+
+
+UPDATE account
+SET last_login = created_on
+(updating last login to created on timestamp)
+
+UPDATE account_job
+SET hire_date = account.created_on
+FROM account 
+WHERE account_job.user_id = account.user_id
+(Updating based off the results from another table)
+
+UPDATE account 
+SET last_login = CURRENT_TIMESTAMP
+RETURNING email_address, created_on, last_login
+
+~~~~~~
+DELETE
+~~~~~~
+DELETE clause to remove rows from a table 
+
+Snytax: 
+DELETE FROM table
+WHERE row_id = 1
+
+DELETE FROM tableA 
+USING tableB
+WHERE tableA.id = tableB.id
+
+DELETE FROM table
+
+PGAdmin
+
+DELETE FROM job
+WHERE job_name = 'Firefighter'
+RETURNING job_id, job_name
+
+
+~~~~~~~~~~~
+ALTER table
+~~~~~~~~~~~
+ALTER clause allows for changes to an existing table structure, such as: 
+    > Adding, dropping or renaming columns
+    > Changing a columns datatype
+    > Set DEFAULT values for a column
+    > Add CHECK constraints
+    > Rename table
+    
+General Snytax:
+
+(add column)
+ALTER TABLE table_name
+ADD COLUMN new_column TYPE
+
+(remove column)
+ALTER TABLE table_name
+DROP COLUMN column_name
+
+(alter constraints)
+ALTER TABLE table_name
+ALTER COLUMN column_name
+SET DEFAULT value
+
+ALTER TABLE table_name
+ALTER COLUMN column_name
+DROP DEFAULT
+
+ALTER TABLE table_name
+ALTER COLUMN column_name
+SET NOT NULL 
+
+ALTER TABLE table_name
+ALTER COLUMN column_name
+DROP NOT NULL 
+
+ALTER TABLE table_name
+ALTER COLUMN column_name
+ADD CONSTRAINT constraint_name
+
+PGAdmin
+
+ALTER TABLE information 
+RENAME TO new_info
+(renaming table)
+
+ALTER TABLE new_info
+RENAME COLUMN person TO people
+(renaming column)
+
+ALTER TABLE new_info
+ALTER COLUMN people
+DROP NOT NULL;
+(removing constraint)
+
+ALTER TABLE new_info
+ALTER COLUMN people
+SET NOT NULL;
+(adding constraint)
+
+~~~~~~~~~~
+DROP table
+~~~~~~~~~~
+DROP allows for the complete removal of a column in a table
+    > Does not remove columns used in views, triggers or stored procedures without CASCADE clause
+    
+General Snytax:
+ALTER TABLE table_name
+DROP COLUMN column_name
+
+(remove all dependencies)
+ALTER TABLE table_name
+DROP COLUMN column_name CASCADE
+
+(checking for existence)
+ALTER TABLE table_name
+DROP COLUMN IF EXISTS column_name
+
+(drop multiple columns)
+ALTER TABLE table_name
+DROP COLUMN column_name1,
+DROP COLUMN column_name2
+
+PGAdmin
+
+ALTER TABLE new_info
+DROP COLUMN people 
+(dropping singular column)
+
+ALTER TABLE new_info
+DROP COLUMN IF EXISTS people 
+(IF EXISTS)
+
+~~~~~~~~~~~~~~~~
+CHECK constraint
+~~~~~~~~~~~~~~~~
+CHECK constraints allows to create more customized constraints that adhere to certain condition
+    > Such as: making sure all inserted integer values fall below a certain threshold
+    
+General Snytax:
+CREATE TABLE example(
+ex_id SERIAL PRIMARY KEY,
+age SMALLINT CHECK (age > 21),
+parent_age SMALLINT CHECK (parent_age > age) );
+
+PGAdmin
+
+CREATE TABLE employees (
+    emp_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    birthdate DATE CHECK (birthdate > '1990-01-01'),
+    hire_date DATE CHECK (hire_date > birthdate),
+    salary INTEGER CHECK (salary > 0)
+    )
+
+INSERT INTO employees(first_name, last_name, birthdate, hire_date, salary)
+VALUES
+('Mayson', 'Farrar', '1996-11-02','2022-09-01', 75)
+
+
+INSERT INTO employees(first_name, last_name, birthdate, hire_date, salary)
+VALUES
+('Carlos', 'Pereira', '1996-06-26','2022-03-01', 76)
+
 
 --------------------------------------------------------------------------------------------------------------------------------------
+Assessment Test 3
+--------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE teachers
+(teacher_id SERIAL PRIMARY KEY,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+homeroom_number VARCHAR(20) NOT NULL,
+department VARCHAR(50) NOT NULL,
+email VARCHAR(200) NOT NULL UNIQUE,
+phone VARCHAR(30) NOT NULL UNIQUE) 
+
+CREATE TABLE students
+(student_id SERIAL PRIMARY KEY,
+first_name VARCHAR(50) NOT NULL,
+last_name VARCHAR(50) NOT NULL,
+homeroom_number VARCHAR(20) NOT NULL,
+graduation_year VARCHAR(10),
+email VARCHAR(200) NOT NULL UNIQUE,
+phone VARCHAR(30) NOT NULL UNIQUE) 
+
+INSERT INTO students( first_name, last_name, homeroom_number, graduation_year, email, phone)
+VALUES ('Mark', 'Watney', '5', '2035', 'N/A', '777-555-1234')
+
+INSERT INTO teachers( first_name, last_name, homeroom_number,department, email, phone)
+VALUES ('Jonas', 'Salk', '5', 'Biology', 'jsalk@school.org', '777-555-4321')
+
+CORRECT ANSWERS:
+
+CREATE TABLE students(
+student_id serial PRIMARY KEY,
+first_name VARCHAR(45) NOT NULL,
+last_name VARCHAR(45) NOT NULL, 
+homeroom_number integer,
+phone VARCHAR(20) UNIQUE NOT NULL,
+email VARCHAR(115) UNIQUE,
+grad_year integer);
+
+CREATE TABLE teachers(
+teacher_id serial PRIMARY KEY,
+first_name VARCHAR(45) NOT NULL,
+last_name VARCHAR(45) NOT NULL, 
+homeroom_number integer,
+department VARCHAR(45),
+email VARCHAR(20) UNIQUE,
+phone VARCHAR(20) UNIQUE);
+
+INSERT INTO students(first_name,last_name, homeroom_number,phone,grad_year)
+VALUES ('Mark','Watney',5,'7755551234',2035);
+
+INSERT INTO teachers(first_name,last_name, homeroom_number,department,email,phone)
+VALUES ('Jonas','Salk',5,'Biology','jsalk@school.org','7755554321');
+
+--------------------------------------------------------------------------------------------------------------------------------------
+Conditional Expressions and Procedures
+--------------------------------------------------------------------------------------------------------------------------------------
+~~~~
+CASE
+~~~~
+Can use CASE to only execute SQL code when certain conditions are met. (similar to IF/ELSE)
+
+General CASE
+Snytax:
+SELECT column_name,
+CASE
+WHEN condition1 THEN result1
+WHEN condition2 THEN result2
+ELSE some_other_result
+END
+FROM table_name;
+
+EXAMPLE:
+    SELECT a, 
+    CASE WHEN a = 1 THEN 'one'
+    WHEN a = 2 THEN 'two'
+    ELSE 'other'
+    END
+    FROM test;
+    
+CASE expression
+Snytax:
+SELECT column_name,
+CASE
+WHEN value1 THEN result1
+WHEN value2 THEN result2
+ELSE some_other_result
+END
+FROM table_name;
+
+EXAMPLE:
+    SELECT a, 
+    CASE a WHEN 1 THEN 'one'
+    WHEN 2 THEN 'two'
+    ELSE 'other'
+    END
+    FROM test;
+
+
+PGAdmin
+
+SELECT customer_id,
+CASE 
+	WHEN (customer_id <= 100) THEN 'Premium'
+	WHEN (customer_id BETWEEN 100 and 200) THEN 'Plus'
+	ELSE 'Regular'
+END AS customer_class
+FROM customer
+(determining status of customer based on when cust registered with company)
+
+
+SELECT customer_id,
+CASE customer_id
+	WHEN 2 THEN 'First Place'
+	WHEN 5 THEN 'Second Place'
+	ELSE 'Non-Winner'
+END AS Raffle_Results
+FROM customer
+(finding raffle results)
+
+SELECT
+CASE rental_rate
+	WHEN 0.99 THEN 1
+	ELSE 0
+END 
+FROM film
+(finding which rental_rate is 0.99)
+
+SELECT 
+SUM (CASE rental_rate
+	WHEN 0.99 THEN 1
+	ELSE 0
+END) AS number_of_bargains
+FROM film
+(counting # of 0.99 movies)
+
+SELECT 
+SUM (CASE rental_rate
+	WHEN 0.99 THEN 1
+	ELSE 0
+END) AS bargains,
+SUM (case rental_rate
+	WHEN 2.99 THEN 1
+	ELSE 0
+END) AS regular,
+SUM (case rental_rate
+	WHEN 4.99 THEN 1
+	ELSE 0
+END) AS Premium
+FROM film
+(categorizing movies by rental_rate)
+
+Challenge Task:
+SELECT 
+SUM (CASE rating
+	WHEN 'R' THEN 1
+	ELSE 0
+END) AS r,
+SUM (CASE rating
+	WHEN 'PG' THEN 1
+	ELSE 0
+END) AS pg,
+SUM (CASE rating
+	WHEN 'PG-13' THEN 1
+	ELSE 0
+END) AS pg13
+FROM film
+
+~~~~~~~~
+COALESCE
+~~~~~~~~
+COALESCE accepts an unlimited number of arguements. It returns the first argument that is not null. If all arguments are null, 
+then the COALESCE function will return null
+
+EXAMPLE:
+SELECT COALESCE (1,2)
+1
+SELECT COALESCE (NULL, 2, 3)
+2
+
+~~~~
+CAST
+~~~~
+CAST lets you convert one data type into another.
+
+Snytax for CAST function
+    >SELECT CAST ('5' AS INTEGER)
+    
+Snytax for PostgreSQL CAST operator
+    > SELECT '5'::INTEGER
+
+EXAMPLE:
+SELECT CAST (date AS TIMESTAMP)
+FROM table 
+
+~~~~~~
+NULLIF
+~~~~~~
+NULLIF takes 2 inputs and returns NULL if both are equal, otherwise it returns the first arguement passed.
+NULLIF(arg1,arg2)
+
+EXAMPLE:
+NULLIF(10,12)
+RETURNS 10
+
+SELECT ( SUM(CASE WHEN department = 'A' THEN 1 ELSE 0 END) / 
+NULLIF ( SUM(CASE WHEN department = 'B' THEN 1 ELSE 0 END), 0) )
+AS department ratio FROM depts
+(creating a ratio between departments, 2 in A, 0 in B, 2 cannot be divided by 0, returns null with NULLIF)
+~~~~~
+Views
+~~~~~
+VIEW to quickly see the query with a simple call (if youre working on a really repeative project)
+***BASICALLY A STORED QUERY*
+Can also update and alter existing views
+
+PGAdmin
+
+CREATE VIEW customer_info AS
+SELECT first_name, last_name, address FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+(creating view)
+
+SELECT * FROM customer_info
+
+CREATE OR REPLACE VIEW customer_info AS 
+SELECT first_name, last_name, address, district FROM customer
+INNER JOIN address
+ON customer.address_id = address.address_id
+(updating view)
+
+DROP VIEW IF EXISTS customer_info
+(dropping view)
+
+ALTER VIEW customer_info RENAME to c_info
+(changing name of view)
+
+~~~~~~~~~~~~~~~~~
+Import and Export
+~~~~~~~~~~~~~~~~~
+Allows us to import data from a .csv file to an existing table 
+DOES NOT create a table for you
+
+STEPS: 
+1)Create a table with correlating columns to .csv file
+2)Expand Schemas, Expand Public Schemas, Find Table
+3)Right click on table
+4)Select Import/Export data
+5)Switch to import at top
+6)Paste file location in filename info
+7)Header = 'YES'
+Delimiter = ','
+Quotes = "
+Escape = '
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
