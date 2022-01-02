@@ -1,0 +1,29 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                  The Web Developer Bootcamp 2022
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Introduction: 
+
+  # The Internet - Global network of interconnected computers that communicate via TCP/IP. Network of Networks
+  # The Web - The World Wide Web is an information system where documents and other resources are available over the internet
+    > Documents are transferred via HTTP
+      + "Hyper Text Transfer Protocol"
+      + Foundation of communication on the WWW
+      + Request - I would like infomation please, Response - OK, here ya go!
+        @Ex: Refreshing webpage will transfer request to website server which will respond with output from website server and browser will display response to user
+        @Client - The computer that accesses a server (the requestor)
+   
+The Request/Response Cycle:
+
+  # Server responses to request with instructions that browser can understand/render for human understanding 
+  # Source code (or the instructions) are a combination of HTML, CSS and JavaScript  
+  
+Front-End and Back-End:
+
+  # Front-End - Focuses on what runs on a browser (HTML, CSS, JavaScript)
+  # Back-End - Focuses on server side and compiling information based on request (Java, C, C++, Python)
+  
+What do HTML/CSS/JS do?
+
+  # HTML - nouns (what)
+  # CSS - adjectives (describes)
+  # JS - verbs (action)
