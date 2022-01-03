@@ -42,7 +42,7 @@ Introduction to HTML:
     > MOST elements consist of opening and closing tagss
       + ex: <p> I am a paragraph </p>
 
-HTML:
+HTML Elements:
 
   # <b></b> - bold word or phrase
   # <p></p> - defining a paragraph or related context
@@ -79,8 +79,14 @@ HTML:
                 <li> Fish </li>
               </ul>
             </ul>
-  #
-  #
+  # <a href= "http://www.google.com"></a> - anchor tags 
+    > creates hyperlink to go to another webpage
+    > needs attribute to be useable: href (hypertext reference)
+  # <img src="download.jfif"> - image embed element
+    > Can be taken from both computer source and internet 
+    > To find picture not in same file as HTML code, point at exact location on PC
+  # <img src = "" alt = ""> - description of image
+  # <!--comment-->
     
 HTML Skeleton (or boilerplate):
 
