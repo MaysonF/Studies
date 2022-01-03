@@ -25,5 +25,122 @@ Front-End and Back-End:
 What do HTML/CSS/JS do?
 
   # HTML - nouns (what)
-  # CSS - adjectives (describes)
+  # CSS - adjectives (describe)
   # JS - verbs (action)
+  
+Introduction to HTML:
+
+  # HTML is a "mark-up language"
+  # The first version of HTML was written by Tim Berners-Lee in 1993
+  # To write HTML, we pick from a set of standard elements that all browsers recognize
+    > Common elements include:
+      + <p> element - represents a paragraph of text
+      + <h1> element - represents the main header on a page
+      + <img> element - embeds an image
+      + <form> element - represents a form
+   # We create elements by writing tags 
+    > MOST elements consist of opening and closing tagss
+      + ex: <p> I am a paragraph </p>
+
+HTML:
+
+  # <b></b> - bold word or phrase
+  # <p></p> - defining a paragraph or related context
+  # <h1></h1> - Main heading
+  # <h2></h2> - sub-heading
+    > Cannot have an h2 without and h1
+  # <h3></h3> - even smaller heading
+    > Cannot have an h3 without and h2
+  # <h4></h4> - smol boi
+    > Cannot have an h4 without and h3
+  # <h5></h5> - smoler boi
+    > Cannot have an h5 without and h4
+  # <h6></h6> - smolst boi
+    > Cannot have an h6 without and h5
+  # <html></html> - Standard html formatting
+  # <head></head> - Header
+  # <title></title> - Title (browser tab name)
+  # <body></body> - Overall information 
+  # <ul></ul> - unordered list (bulleted)
+  # <li></li> - single item in a list
+  # <ol></ol> - ordered list (numbered)
+  # Can NEST lists
+    > ex: <ul>
+            <li> Farm Animals </li>
+              <ul>
+                <li> Cow </li>
+                <li> Sheep </li>
+                <li> Pig </li>
+              </ul>
+            <li> House Animals </li>
+              <ul>
+                <li> Dog </li>
+                <li> Cat </li>
+                <li> Fish </li>
+              </ul>
+            </ul>
+  #
+  #
+    
+HTML Skeleton (or boilerplate):
+
+  # Standard format
+  # <!DOCTYPE html>
+  # <html>
+  # <head>
+  # <title> some title </title>
+  # </head>
+  # <body>
+  # (information, headers, images, paragraphs, etc..)
+  # </body>
+  # </html>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
